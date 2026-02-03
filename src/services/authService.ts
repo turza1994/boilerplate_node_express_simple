@@ -1,6 +1,16 @@
-import { findUserByEmail, findUserById, createUser, updateUserRefreshToken } from '../repositories/userRepository.js';
+import {
+  findUserByEmail,
+  findUserById,
+  createUser,
+  updateUserRefreshToken,
+} from '../repositories/userRepository.js';
 import { hashPassword, comparePassword } from '../utils/password.js';
-import { generateAccessToken, generateRefreshToken, verifyRefreshToken, type JwtPayload } from '../utils/jwt.js';
+import {
+  generateAccessToken,
+  generateRefreshToken,
+  verifyRefreshToken,
+  type JwtPayload,
+} from '../utils/jwt.js';
 import { withTransaction } from '../db/transaction.js';
 
 export async function signup(email: string, password: string) {
@@ -11,6 +21,10 @@ export async function signup(email: string, password: string) {
 
   const passwordHash = await hashPassword(password);
   const user = await createUser(email, passwordHash);
+
+  if (!user) {
+    throw new Error('Failed to create user');
+  }
 
   const payload: JwtPayload = {
     userId: user.id,
@@ -71,13 +85,16 @@ export async function login(email: string, password: string) {
 
 export async function refreshToken(refreshTokenString: string) {
   const payload = verifyRefreshToken(refreshTokenString);
-  
+
   const user = await findUserById(payload.userId);
-  if (!user || !user.refreshTokenHash) {
+  if (!user?.refreshTokenHash) {
     throw new Error('Invalid refresh token');
   }
 
-  const isValidRefreshToken = await comparePassword(refreshTokenString, user.refreshTokenHash);
+  const isValidRefreshToken = await comparePassword(
+    refreshTokenString,
+    user.refreshTokenHash
+  );
   if (!isValidRefreshToken) {
     throw new Error('Invalid refresh token');
   }

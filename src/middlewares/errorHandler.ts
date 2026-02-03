@@ -6,24 +6,32 @@ export function errorHandler(
   req: Request,
   res: Response,
   next: NextFunction
-) {
-  logger.error('Unhandled error:', error);
+): void {
+  logger.error({
+    msg: 'Unhandled error',
+    error: error.message,
+    stack: error.stack,
+  });
 
-  if (error.message.includes('Invalid credentials') || 
-      error.message.includes('Invalid refresh token') ||
-      error.message.includes('Email already exists') ||
-      error.message.includes('Sample item not found')) {
-    return res.status(400).json({
+  if (
+    error.message.includes('Invalid credentials') ||
+    error.message.includes('Invalid refresh token') ||
+    error.message.includes('Email already exists') ||
+    error.message.includes('Sample item not found')
+  ) {
+    res.status(400).json({
       success: false,
       message: error.message,
     });
+    return;
   }
 
   if (error.message.includes('not found')) {
-    return res.status(404).json({
+    res.status(404).json({
       success: false,
       message: 'Resource not found',
     });
+    return;
   }
 
   res.status(500).json({

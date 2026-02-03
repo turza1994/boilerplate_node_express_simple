@@ -5,6 +5,10 @@ import { refreshTokenSchema } from '../schemas/auth.js';
 
 const router = Router();
 
-router.post('/refresh-token', validate(refreshTokenSchema), refreshTokenController);
+router.post(
+  '/refresh-token',
+  validate(refreshTokenSchema),
+  refreshTokenController
+);
 
 export default router;

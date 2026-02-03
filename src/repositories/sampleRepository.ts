@@ -8,32 +8,32 @@ export async function findSampleItemById(id: number) {
     .from(sampleItems)
     .where(eq(sampleItems.id, id))
     .limit(1);
-  
+
   return result[0] || null;
 }
 
 export async function createSampleItem(counter: number = 0) {
-  const result = await db
-    .insert(sampleItems)
-    .values({ counter })
-    .returning();
-  
+  const result = await db.insert(sampleItems).values({ counter }).returning();
+
   return result[0];
 }
 
-export async function updateSampleItemCounterAtomic(id: number, increment: number) {
+export async function updateSampleItemCounterAtomic(
+  id: number,
+  increment: number
+) {
   const result = await db
     .update(sampleItems)
     .set({
-      counter: sql`${sampleItems.counter} + ${increment}`
+      counter: sql`${sampleItems.counter} + ${increment}`,
     })
     .where(eq(sampleItems.id, id))
     .returning();
-  
+
   if (result.length === 0) {
     throw new Error('Sample item not found');
   }
-  
+
   return result[0];
 }
 
@@ -44,6 +44,6 @@ export async function getSampleItemForUpdate(id: number) {
     .where(eq(sampleItems.id, id))
     .for('update')
     .limit(1);
-  
+
   return result[0] || null;
 }

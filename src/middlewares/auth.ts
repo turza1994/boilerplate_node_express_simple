@@ -7,26 +7,32 @@ declare module 'express' {
   }
 }
 
-export function authMiddleware(req: Request, res: Response, next: NextFunction) {
+export function authMiddleware(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void {
   const authHeader = req.headers.authorization;
-  
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({
+
+  if (!authHeader?.startsWith('Bearer ')) {
+    res.status(401).json({
       success: false,
       message: 'Access token required',
     });
+    return;
   }
 
   const token = authHeader.substring(7);
-  
+
   try {
     const payload = verifyAccessToken(token);
     req.user = payload;
     next();
   } catch (error) {
-    return res.status(401).json({
+    res.status(401).json({
       success: false,
       message: 'Invalid access token',
     });
+    return;
   }
 }

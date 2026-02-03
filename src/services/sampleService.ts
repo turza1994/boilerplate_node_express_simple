@@ -1,4 +1,7 @@
-import { findSampleItemById, updateSampleItemCounterAtomic } from '../repositories/sampleRepository.js';
+import {
+  findSampleItemById,
+  updateSampleItemCounterAtomic,
+} from '../repositories/sampleRepository.js';
 import { withTransaction } from '../db/transaction.js';
 import { eq } from 'drizzle-orm';
 import { sampleItems } from '../models/index.js';
@@ -11,11 +14,17 @@ export async function getSampleItem(id: number) {
   return item;
 }
 
-export async function incrementSampleItemCounterAtomic(id: number, increment: number) {
+export async function incrementSampleItemCounterAtomic(
+  id: number,
+  increment: number
+) {
   return updateSampleItemCounterAtomic(id, increment);
 }
 
-export async function incrementSampleItemCounterWithLock(id: number, increment: number) {
+export async function incrementSampleItemCounterWithLock(
+  id: number,
+  increment: number
+) {
   return withTransaction(async (tx) => {
     const item = await tx
       .select()
