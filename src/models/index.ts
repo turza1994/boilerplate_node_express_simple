@@ -13,3 +13,8 @@ export const sampleItems = pgTable('sample_items', {
   id: serial('id').primaryKey(),
   counter: integer('counter').notNull().default(0),
 });
+
+export const schema = {
+  users,
+  sampleItems,
+};

@@ -8,18 +8,19 @@ import {
 import { UpdateSampleItemInput } from '../schemas/sample.js';
 
 export const getSampleItemController = asyncHandler(
-  async (req: Request, res: Response): Promise<any> => {
+  async (req: Request, res: Response): Promise<void> => {
     const id = Number(req.params.id);
     if (isNaN(id)) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         message: 'Invalid ID',
       });
+      return;
     }
 
     const item = await getSampleItem(id);
 
-    return res.json({
+    res.json({
       success: true,
       data: item,
     });
@@ -27,13 +28,14 @@ export const getSampleItemController = asyncHandler(
 );
 
 export const updateSampleItemController = asyncHandler(
-  async (req: Request, res: Response): Promise<any> => {
+  async (req: Request, res: Response): Promise<void> => {
     const id = Number(req.params.id);
     if (isNaN(id)) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         message: 'Invalid ID',
       });
+      return;
     }
 
     const { counter }: UpdateSampleItemInput = req.body;
@@ -49,13 +51,14 @@ export const updateSampleItemController = asyncHandler(
 );
 
 export const updateSampleItemWithLockController = asyncHandler(
-  async (req: Request, res: Response): Promise<any> => {
+  async (req: Request, res: Response): Promise<void> => {
     const id = Number(req.params.id);
     if (isNaN(id)) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         message: 'Invalid ID',
       });
+      return;
     }
 
     const { counter }: UpdateSampleItemInput = req.body;

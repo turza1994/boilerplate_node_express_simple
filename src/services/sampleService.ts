@@ -37,7 +37,8 @@ export async function incrementSampleItemCounterWithLock(
       throw new Error('Sample item not found');
     }
 
-    const newCounter = item[0].counter + increment;
+    const currentItem = item[0]!;
+    const newCounter = currentItem.counter + increment;
 
     const updated = await tx
       .update(sampleItems)
@@ -45,6 +46,10 @@ export async function incrementSampleItemCounterWithLock(
       .where(eq(sampleItems.id, id))
       .returning();
 
-    return updated[0];
+    if (updated.length === 0) {
+      throw new Error('Failed to update sample item');
+    }
+
+    return updated[0]!;
   });
 }
