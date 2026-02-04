@@ -125,7 +125,7 @@ describe('Authentication Integration Tests', () => {
       headers: {
         'Content-Type': 'application/json',
         'x-csrf-token': csrfToken,
-        Cookie: `refresh_token=${refreshToken}`,
+        Cookie: `refresh_token=${refreshToken}; _csrf=${csrfToken}`,
       },
     });
 
@@ -173,6 +173,7 @@ describe('Authentication Integration Tests', () => {
     });
 
     const refreshToken = cookies['refresh_token'];
+    const csrfToken = cookies['_csrf'];
 
     // Test logout
     const logoutResponse = await fetch(`${BASE_URL}/api/auth/logout`, {
@@ -206,7 +207,8 @@ describe('Authentication Integration Tests', () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Cookie: `refresh_token=${refreshToken}`,
+          'x-csrf-token': csrfToken,
+          Cookie: `refresh_token=${refreshToken}; _csrf=${csrfToken}`,
         },
       }
     );

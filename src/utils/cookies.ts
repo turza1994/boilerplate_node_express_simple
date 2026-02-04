@@ -29,10 +29,9 @@ export function setRefreshTokenCookie(
 
 export function clearRefreshTokenCookie(res: Response): void {
   const options = getRefreshTokenCookieOptions();
-  res.clearCookie(env.REFRESH_TOKEN_COOKIE_NAME, {
-    path: options.path,
-    httpOnly: options.httpOnly,
-    secure: options.secure,
-    sameSite: options.sameSite,
+  res.cookie(env.REFRESH_TOKEN_COOKIE_NAME, '', {
+    ...options,
+    maxAge: 0,
+    expires: new Date(0),
   });
 }
