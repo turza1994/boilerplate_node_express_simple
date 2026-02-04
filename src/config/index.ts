@@ -14,6 +14,7 @@ export const env = {
   NODE_ENV: process.env.NODE_ENV ?? 'development',
   RATE_LIMIT_WINDOW_MS: Number(process.env.RATE_LIMIT_WINDOW_MS) || 900000,
   RATE_LIMIT_MAX_REQUESTS: Number(process.env.RATE_LIMIT_MAX_REQUESTS) || 100,
+  CORS_ORIGINS: process.env.CORS_ORIGINS?.split(',') ?? [],
 } as const;
 
 function validateEnv() {
