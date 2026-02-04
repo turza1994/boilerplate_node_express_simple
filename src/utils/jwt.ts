@@ -22,7 +22,7 @@ export function generateRefreshToken(payload: JwtPayload): string {
 export function verifyAccessToken(token: string): JwtPayload {
   try {
     return jwt.verify(token, env.JWT_SECRET) as JwtPayload;
-  } catch (error) {
+  } catch {
     throw new Error('Invalid access token');
   }
 }
@@ -30,7 +30,7 @@ export function verifyAccessToken(token: string): JwtPayload {
 export function verifyRefreshToken(token: string): JwtPayload {
   try {
     return jwt.verify(token, env.REFRESH_TOKEN_SECRET) as JwtPayload;
-  } catch (error) {
+  } catch {
     throw new Error('Invalid refresh token');
   }
 }

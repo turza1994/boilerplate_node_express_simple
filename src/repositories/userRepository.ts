@@ -9,13 +9,13 @@ export async function findUserByEmail(email: string) {
     .where(eq(users.email, email))
     .limit(1);
 
-  return result[0] || null;
+  return result[0] ?? null;
 }
 
 export async function findUserById(id: number) {
   const result = await db.select().from(users).where(eq(users.id, id)).limit(1);
 
-  return result[0] || null;
+  return result[0] ?? null;
 }
 
 export async function createUser(email: string, passwordHash: string) {

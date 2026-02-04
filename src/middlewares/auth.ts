@@ -28,7 +28,7 @@ export function authMiddleware(
     const payload = verifyAccessToken(token);
     req.user = payload;
     next();
-  } catch (error) {
+  } catch {
     res.status(401).json({
       success: false,
       message: 'Invalid access token',

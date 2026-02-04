@@ -6,7 +6,7 @@ export function validate(schema: ZodSchema) {
     try {
       schema.parse(req.body);
       next();
-    } catch (error) {
+    } catch {
       res.status(400).json({
         success: false,
         message: 'Validation error',

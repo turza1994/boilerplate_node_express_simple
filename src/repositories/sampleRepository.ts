@@ -9,7 +9,7 @@ export async function findSampleItemById(id: number) {
     .where(eq(sampleItems.id, id))
     .limit(1);
 
-  return result[0] || null;
+  return result[0] ?? null;
 }
 
 export async function createSampleItem(counter: number = 0) {
@@ -45,5 +45,5 @@ export async function getSampleItemForUpdate(id: number) {
     .for('update')
     .limit(1);
 
-  return result[0] || null;
+  return result[0] ?? null;
 }

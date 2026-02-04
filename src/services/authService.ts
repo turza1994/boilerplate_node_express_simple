@@ -11,7 +11,6 @@ import {
   verifyRefreshToken,
   type JwtPayload,
 } from '../utils/jwt.js';
-import { withTransaction } from '../db/transaction.js';
 
 export async function signup(email: string, password: string) {
   const existingUser = await findUserByEmail(email);
@@ -46,6 +45,7 @@ export async function signup(email: string, password: string) {
       createdAt: user.createdAt,
     },
     accessToken,
+    refreshToken,
   };
 }
 
@@ -80,6 +80,7 @@ export async function login(email: string, password: string) {
       createdAt: user.createdAt,
     },
     accessToken,
+    refreshToken,
   };
 }
 
