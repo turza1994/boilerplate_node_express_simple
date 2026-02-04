@@ -6,7 +6,7 @@ import { db } from '../src/db/client.js';
 import { users } from '../src/models/index.js';
 import { eq } from 'drizzle-orm';
 
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'http://localhost:5000';
 
 describe('Authentication Integration Tests', () => {
   let testUserId: number;
